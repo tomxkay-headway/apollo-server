@@ -1,3 +1,5 @@
+const generateRandomString = require("../utils/generateRandomString");
+
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
@@ -11,9 +13,24 @@ const resolvers = {
   },
   Mutation: {
     async createLink(root, { url, slug }, { models }) {
+      const randomHash = generateRandomString();
+      let slugToUse = "";
+
+      if (slug) {
+        // hardcode implementation
+        const slugExists = true;
+        if (slugExists) {
+          slugToUse = randomHash;
+        } else {
+          slugToUse = slug;
+        }
+      } else {
+        slugToUse = randomHash;
+      }
+
       return models.Link.create({
         url,
-        slug
+        slug: slugToUse
       });
     }
   }
